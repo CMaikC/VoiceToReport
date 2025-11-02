@@ -21,8 +21,37 @@ interface InspectionRoom {
 }
 
 interface InspectionData {
-  floor: string | null;
+  floor?: string | null; // étage par défaut du bâtiment
   rooms: InspectionRoom[];
+}
+
+// Interface pour les données Excel des pièces
+interface RoomExcelData {
+  id_classement_champs: string;
+  Lot: string;
+  PieceHorsCREP: string;
+  PieceExterieure: string;
+  ClefComposant: string;
+  Batiment: string;
+  Local: string;
+  Justification: string;
+  MoyenAMettreEnOeuvre: string;
+}
+
+// Interface pour les données Excel de description des pièces
+interface DescriptionExcelData {
+  id_classement_champs: string;
+  ClefComposant: string;
+  Localistion: string;
+  Informations: string;
+  Type: string;
+  CREP_degradation: string;
+  CREP_degradation_Details: string;
+  CREP_mesure: string;
+  Data_1: string;
+  Data_2: string;
+  Data_3: string;
+  Data_4: string;
 }
 
 // Fonction pour générer une clé composant unique
@@ -122,8 +151,8 @@ export async function POST(request: Request) {
 }
 
 // Générer les données pour le fichier "Liste des pièces"
-function generateRoomsExcelData(data: InspectionData): any[] {
-  const rows: any[] = [];
+function generateRoomsExcelData(data: InspectionData): RoomExcelData[] {
+  const rows: RoomExcelData[] = [];
 
   // Données des pièces (sans en-tête, XLSX les crée automatiquement)
   data.rooms.forEach((room, index) => {
@@ -144,8 +173,8 @@ function generateRoomsExcelData(data: InspectionData): any[] {
 }
 
 // Générer les données pour le fichier "Description des pièces"
-function generateDescriptionsExcelData(data: InspectionData): any[] {
-  const rows: any[] = [];
+function generateDescriptionsExcelData(data: InspectionData): DescriptionExcelData[] {
+  const rows: DescriptionExcelData[] = [];
 
   let elementIndex = 0;
 
